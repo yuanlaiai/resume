@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+:root {
+  /* ===== 设计稿设计令牌（Ardot 设计稿 1:1 提取） ===== */
+  --bg-canvas: #f8f6f2;      /* 画布底色（暖米白） */
+  --bg-preview: #f1efea;     /* 预览区底色 */
+  --border-subtle: #e8edeb;  /* 细分隔线 */
+  --border-strong: #d2dcd8;  /* 按钮描边 */
+  --text-primary: #1a1a1a;   /* 主文字 */
+  --text-dark: #3a3a3a;      /* 深灰文字 */
+  --text-body: #4a4a4a;      /* 正文 */
+  --text-secondary: #5c5c5c; /* 次级文字 */
+  --text-tertiary: #8a8a8a;  /* 弱化文字 */
+  --accent: #6ba8a0;         /* 鼠尾草青（进度条/填充） */
+  --accent-strong: #4f8a82;  /* 深青（主按钮/Logo） */
+  --accent-text: #3e726b;    /* 青色文字 */
+  --accent-tint: #eaf3f1;    /* 青色浅底 */
+  --chip-bg: #f4f2ed;        /* 模板胶囊底色 */
+  --card-bg: #faf9f6;        /* 经历卡片底色 */
+  --skill-bg: #f4f3f0;       /* 技能标签底色 */
+  --track: #edebe5;          /* 进度轨道 */
+  --amber-bg: #fff4d6;       /* 高亮输入框底 */
+  --amber-border: #e8b84b;   /* 高亮描边 */
+  --amber-text: #9a6a1b;     /* 高亮提示文字 */
+  --paper-hl: #fde9a8;       /* 纸张同步高亮底色 */
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 学术衬线模板专用字体 */
+  .font-serif-paper {
+    font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  }
+}
+
+@layer components {
+  /* 左侧输入框同步高亮（琥珀色，对应设计稿「求职意向」输入框） */
+  .field-hot {
+    border-width: 1.5px;
+    border-color: var(--amber-border);
+    background-color: var(--amber-bg);
+    box-shadow: 0 0 6px rgba(232, 184, 75, 0.35);
+  }
+
+  /* 右侧纸张预览同步脉冲 */
+  .preview-pulse {
+    animation: preview-pulse 2.4s ease;
+  }
+}
+
+@keyframes preview-pulse {
+  0% {
+    box-shadow: 0 0 0 5px rgba(232, 184, 75, 0.55);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(232, 184, 75, 0);
+  }
+}
+
+/* ===== 打印（下载 PDF）=====
+ * 屏幕上隐藏打印副本；打印时隐藏整个应用，仅输出 A4 纸张。
+ * 纸张 560×792px 等比放大铺满 A4（96dpi 下 A4 约 794×1123px）。 */
+#print-area {
+  display: none;
+}
+
+@media print {
+  /* 根容器屏幕上是「固定视口高度 + 裁切」，打印时必须放开高度与裁切，
+     否则多页简历会被裁成一页（分页符本身没错，是内容根本没进入分页流） */
+  html,
+  body,
+  #root,
+  #app-root {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  #app-shell {
+    display: none !important;
+  }
+
+  #print-area {
+    display: block !important;
+  }
+
+  /* 多页堆叠在打印时取消间距，逐页输出 */
+  #print-area .paper-stack {
+    display: block !important;
+  }
+
+  #print-area .resume-paper {
+    zoom: 1.417;
+    box-shadow: none !important;
+    break-after: page;
+    page-break-after: always;
+    /* 深色纸张/页眉带等背景色需要强制打印 */
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  #print-area .resume-paper:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}

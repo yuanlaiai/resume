@@ -1,0 +1,27 @@
+{
+  "name": "resumecraft",
+  "private": true,
+  "version": "0.1.0",
+  "description": "ResumeCraft 简历工坊 — 免费开源的纯前端简历制作器：38 套模板 · AI 辅助 · 一键导出 PDF",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "mammoth": "^1.12.3",
+    "pdfjs-dist": "^6.3.289",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.4",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.1.4",
+    "typescript": "~5.6.2",
+    "vite": "^5.4.10"
+  }
+}
